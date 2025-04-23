@@ -104,6 +104,15 @@ export default class Game extends Phaser.Scene {
       null,
       this
     );
+
+    this.keydown = this.input.keyboard.addKeys("R");
+
+    this.cameras.main.on(
+      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+      () => {
+        this.scene.restart();
+      }
+    );
   }
 
   update() {
@@ -121,6 +130,16 @@ export default class Game extends Phaser.Scene {
 
       this.player.anims.play("turn");
     }
+
+    //resetting the game
+    this.input.keyboard.on("keydown-R", () => {
+      //  Get a random color
+      const red = Phaser.Math.Between(50, 255);
+      const green = Phaser.Math.Between(50, 255);
+      const blue = Phaser.Math.Between(50, 255);
+
+      this.cameras.main.fade(2000, red, green, blue);
+    });
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
