@@ -125,6 +125,37 @@ export default class Game extends Phaser.Scene {
     );
 
     //add timer
+    this.tiempo = 30;
+    this.textoTiempo = this.add.text(
+      this.cameras.main.width - 150,
+      10,
+      "tiempo:" + this.tiempo,
+      {
+        fontSize: "32px",
+        color: "#000000",
+        fontFamily: "Arial",
+      }
+    );
+
+    this.temporizador = this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.tiempo--;
+        this.textoTiempo.setText("tiempo:" + this.tiempo);
+
+        if (this.tiempo <= 0) {
+          this.add.text(280, 250, "Game Over", {
+            fontSize: "48px",
+            color: "#ff0000",
+          });
+
+          this.temporizador.remove();
+          this.physics.pause();
+        }
+      },
+      callbackScope: this,
+      loop: true,
+    });
   }
 
   update() {
