@@ -12,6 +12,9 @@ export default class Game extends Phaser.Scene {
     // init variables
     // take data passed from other scenes
     // data object param {}
+    let timeLeft = 30; // empieza en 30 segundos
+    let timerText;
+    let timerEvent;
   }
 
   preload() {
@@ -27,6 +30,13 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.fadeFrom(
+      2000,
+      Phaser.Math.Between(50, 255),
+      Phaser.Math.Between(50, 255),
+      Phaser.Math.Between(50, 255)
+    );
+
     // create game objects
     this.add.image(400, 300, "sky");
 
@@ -113,6 +123,8 @@ export default class Game extends Phaser.Scene {
         this.scene.restart();
       }
     );
+
+    //add timer
   }
 
   update() {
@@ -179,5 +191,17 @@ export default class Game extends Phaser.Scene {
     this.player.anims.play("turn");
 
     this.gameOver = true;
+
+    this.gameOverText = this.add.text(270, 250, `Game Over`, {
+      fontSize: "50px",
+      fill: "#000",
+      align: "center",
+    });
+
+    this.restartText = this.add.text(285, 300, `Press "R" to restart`, {
+      fontSize: "20px",
+      fill: "#000",
+      align: "center",
+    });
   }
 }
